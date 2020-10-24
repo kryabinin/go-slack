@@ -24,7 +24,7 @@ type HTTPClient interface {
 type (
 	// Client provides api to work with slack entities
 	Client interface {
-		// PostMessage send message to a channel
+		// PostMessage send Message to a channel
 		PostMessage(ctx context.Context, message string, channel string, opts ...MsgOption) (MessagePosted, error)
 
 		// GetUserByEmail find a user with an email address.

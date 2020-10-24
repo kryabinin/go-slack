@@ -1,4 +1,4 @@
-// Package slack - message
+// Package slack - Message
 package slack
 
 import (
@@ -8,24 +8,25 @@ import (
 )
 
 type (
-	message struct {
-		// Channel channel, private group, or IM channel to send message to. Can be an encoded ID, or a name
+	// Message entity
+	Message struct {
+		// Channel channel, private group, or IM channel to send Message to. Can be an encoded ID, or a name
 		Channel string `json:"channel"`
 
-		// Text main body text of the message. If blocks field is passed, text is used as a fallback string to display
+		// Text main body text of the Message. If blocks field is passed, text is used as a fallback string to display
 		// in notifications
 		Text string `json:"text"`
 
-		//AsUser post the message as the authed user, instead of as a bot
+		//AsUser post the Message as the authed user, instead of as a bot
 		AsUser *bool `json:"as_user,omitempty"`
 
-		// Attachments to the message
+		// Attachments to the Message
 		Attachments []Attachment `json:"attachments,omitempty"`
 
-		// IconEmoji emoji to use as the icon for this message. Overrides icon_url
+		// IconEmoji emoji to use as the icon for this Message. Overrides icon_url
 		IconEmoji string `json:"icon_emoji,omitempty"`
 
-		// IconUrl url to an image to use as the icon for this message. Must be used in conjunction with as_user set to
+		// IconUrl url to an image to use as the icon for this Message. Must be used in conjunction with as_user set to
 		// false, otherwise ignored
 		IconUrl string `json:"icon_url,omitempty"`
 
@@ -35,7 +36,7 @@ type (
 		// Markdown disable Slack markup parsing by setting to false
 		Markdown *bool `json:"mrkdwn,omitempty"`
 
-		// ThreadTimestamp provide another message's ts value to make this message a repl
+		// ThreadTimestamp provide another Message's ts value to make this Message a repl
 		ThreadTimestamp string `json:"thread_ts,omitempty"`
 
 		// UnfurlLinks pass true to enable unfurling of primarily text-based content
@@ -55,7 +56,7 @@ type (
 		// Color changes the color of the border on the left side of this attachment from the default gray.
 		Color string `json:"color,omitempty"`
 
-		// Pretext text that appears above the message attachment block
+		// Pretext text that appears above the Message attachment block
 		Pretext string `json:"pretext,omitempty"`
 
 		// AuthorName small text used to display the author's name.
@@ -86,7 +87,7 @@ type (
 		// 500px, while still maintaining the original aspect ratio. Cannot be used with thumb_url.
 		ImageUrl string `json:"image_url,omitempty"`
 
-		// ThumbUrl a valid URL to an image file that will be displayed as a thumbnail on the right side of a message
+		// ThumbUrl a valid URL to an image file that will be displayed as a thumbnail on the right side of a Message
 		// attachment. Currently supports the following formats: GIF, JPEG, PNG, and BMP.
 
 		// The thumbnail's longest dimension will be scaled down to 75px while maintaining the aspect ratio of the image.
@@ -113,15 +114,15 @@ type MessagePosted struct {
 	// Error short machine-readable error code
 	Error string `json:"error"`
 
-	// Channel where message was posted
+	// Channel where Message was posted
 	Channel string `json:"channel"`
 
-	// Timestamp can be used in other message to reply
+	// Timestamp can be used in other Message to reply
 	Timestamp string `json:"timestamp"`
 
-	// Message message body
+	// Message Message body
 	Message struct {
-		// Text message text
+		// Text Message text
 		Text string `json:"text"`
 
 		// Username bot's username
@@ -142,19 +143,19 @@ type MessagePosted struct {
 			Fallback string `json:"fallback"`
 		} `json:"attachments"`
 
-		// Type always message
+		// Type always Message
 		Type string `json:"type"`
 
-		// SubType sub type of message
+		// SubType sub type of Message
 		SubType string `json:"subtype"`
 
-		// Timestamp can be used in other message to reply
+		// Timestamp can be used in other Message to reply
 		Timestamp string `json:"timestamp"`
-	} `json:"message"`
+	} `json:"Message"`
 }
 
 func postMessage(ctx context.Context, c *client, text, channel string, opts ...MsgOption) (MessagePosted, error) {
-	message := message{
+	message := Message{
 		Text:    text,
 		Channel: channel,
 	}
@@ -165,7 +166,7 @@ func postMessage(ctx context.Context, c *client, text, channel string, opts ...M
 
 	data, err := json.Marshal(message)
 	if err != nil {
-		return MessagePosted{}, fmt.Errorf("can't marshal request message: %w", err)
+		return MessagePosted{}, fmt.Errorf("can't marshal request Message: %w", err)
 	}
 
 	var resp []byte
@@ -175,7 +176,7 @@ func postMessage(ctx context.Context, c *client, text, channel string, opts ...M
 
 	var posted MessagePosted
 	if err = json.Unmarshal(resp, &posted); err != nil {
-		return MessagePosted{}, fmt.Errorf("can't unmarshal posted message data: %w", err)
+		return MessagePosted{}, fmt.Errorf("can't unmarshal posted Message data: %w", err)
 	}
 
 	return posted, nil

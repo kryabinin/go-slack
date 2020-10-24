@@ -1,10 +1,10 @@
-// Package slack - message options
+// Package slack - Message options
 package slack
 
 type (
-	// MsgOption to apply optional options to message
+	// MsgOption to apply optional options to Message
 	MsgOption interface {
-		apply(msg *message)
+		apply(msg *Message)
 	}
 
 	asUser struct {
@@ -16,20 +16,20 @@ type (
 	}
 )
 
-// AsUser pass true to post the message as the authed user, instead of as a bot
+// AsUser pass true to post the Message as the authed user, instead of as a bot
 func AsUser(val bool) MsgOption {
 	return &asUser{val: val}
 }
 
-func (opt *asUser) apply(msg *message) {
+func (opt *asUser) apply(msg *Message) {
 	msg.AsUser = &opt.val
 }
 
-// AddAttachment adds attachment to the message
+// AddAttachment adds attachment to the Message
 func AddAttachment(attachment Attachment) MsgOption {
 	return &addAttachment{attachment: attachment}
 }
 
-func (opt *addAttachment) apply(msg *message) {
+func (opt *addAttachment) apply(msg *Message) {
 	msg.Attachments = append(msg.Attachments, opt.attachment)
 }

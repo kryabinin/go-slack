@@ -48,7 +48,7 @@ func TestMockClient_PostMessage(t *testing.T) {
 		assert.Equal(t, slack.MessagePosted{Channel: channel}, resp)
 	})
 
-	t.Run("error on sending message", func(t *testing.T) {
+	t.Run("error on sending Message", func(t *testing.T) {
 		var (
 			expErr  = errors.New("test error")
 			message = "test_message"

@@ -31,7 +31,7 @@ func (_m *MockClient) GetUserByEmail(ctx context.Context, email string) (User, e
 	return r0, r1
 }
 
-// PostMessage provides a mock function with given fields: ctx, message, channel, opts
+// PostMessage provides a mock function with given fields: ctx, Message, channel, opts
 func (_m *MockClient) PostMessage(ctx context.Context, message string, channel string, opts ...MsgOption) (MessagePosted, error) {
 	_va := make([]interface{}, len(opts))
 	for _i := range opts {
