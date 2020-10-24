@@ -1,46 +1,22 @@
-# Slack-api 
-Библиотека для работы с api слака на golang
-## Установка
+# go-slack
+Slack api client for golang applications
+
+## Installing
 ```
-go get gitlab.mobbtech.com/root-team/automation/slack
-```
-## Создание клиента
-```go
-var (
-    token = "slack_auth_token"
-    client = slack.NewClient(token, &http.Client{})
-)
+go get github.com/kryabinin/go-slack
 ```
 
-## Поиск пользователя по email
+## Example
+Get user information
 ```go
-var userLoader = slack.NewUserLoader(client)
+client := slack.NewClient("token")
 
-var user slack.User
-user, err = userLoader.LoadUserByEmail("user@gmail.com")
-```
-
-## Отправка сообщения
-В качестве `RecipientID` можно использовать как ID юзера, так и канала.
-```go
-var messageSender = slack.NewMessageSender(client)
-if err = messageSender.SendMessage(slack.Message{
-    RecipientID: "CHANNEL_ID",
-    Text: "Hello world!",
-    AsUser:      true,
-}); nil != err {
-    //error
+user, err := client.GetUserByEmail(context.Background(), "test@mail.com")
+if err != nil {
+    fmt.Println(err.Error())
+    os.Exit(1)
 }
+
+fmt.Println("user's name is: ", user.Name)
 ```
- Чтобы отвечать в тред, необходимо указать таймштамп треда
- ```go
- var messageSender = slack.NewMessageSender(client)
- if err = messageSender.SendMessage(slack.Message{
-     RecipientID: "CHANNEL_ID",
-     Text: "Hello world!",
-     Timestamp: 100500,
-     AsUser:      true,
- }); nil != err {
-     //error
- }
- ```
+
